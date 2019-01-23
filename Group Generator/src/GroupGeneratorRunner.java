@@ -1,13 +1,18 @@
-import java.awt.Component;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 import java.util.ArrayList;
+import java.io.*;
 
 
-public class GroupGeneratorRunner 
+@SuppressWarnings("serial")
+public class GroupGeneratorRunner extends JPanel
 {
 	static ArrayList<Student> directory = new ArrayList<Student>();
 	static JFrame frame = new JFrame("Group Generator");
-
+	static JLabel lbl2;
+	
 	public static void main(String[] args) 
 	{
 		displayJFrame();
@@ -15,33 +20,53 @@ public class GroupGeneratorRunner
 	
 	public static void displayJFrame()
 	{
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(300, 150);
-		frame.setLocation(430, 100);
-		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		frame.add(panel);
+		panel.setLayout(null);
 		
 		JLabel lbl = new JLabel("Choose a FIle");
-		lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+		lbl.setBounds(150, 5, 100, 20);
 		panel.add(lbl);
 		
-		String [] choices = {"Temperature", "Metric", "Currency", "Time Zones", "Imperial"};
-		
-		final JComboBox<String> cb = new JComboBox<String>(choices);
-		
-		cb.setMaximumSize(cb.getPreferredSize()); 
-		cb.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		panel.add(cb);
-		
-		JButton btn = new JButton("OK");
-		btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JButton btn = new JButton("Load Existing Class");
+		btn.setBounds(20 , 40, 150, 50);
 		panel.add(btn);
 		
+		JButton btn2 = new JButton("Create New Class");
+		btn2.setBounds(215, 40, 150, 50);
+		panel.add(btn2);
+		
+		JFileChooser f1 = new JFileChooser();
+		lbl2 = new JLabel("no file selected");
+		
+		frame.getContentPane().add(panel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(400, 150);
+		frame.setLocation(400, 200);
 		frame.setVisible(true);
+		frame.repaint();
+		
+
+		btn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			  String com = e.getActionCommand();
+			  
+			  if(com.equals("Load Existing Class"))
+			  {
+				  JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				  
+				  int r = j.showOpenDialog(null);
+				  
+				  if(r == JFileChooser.APPROVE_OPTION)
+				  {
+					  lbl2.setText(j.getSelectedFile().getAbsolutePath());
+				  }
+			  }
+			}
+		});
 	}
+
+	
 
 }
