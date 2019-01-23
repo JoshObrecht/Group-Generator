@@ -10,9 +10,11 @@ import java.io.*;
 public class GroupGeneratorRunner extends JPanel
 {
 	static ArrayList<Student> directory = new ArrayList<Student>();
-	static JFrame frame = new JFrame("Group Generator");
+	static JFrame frame;
 	static JLabel lbl2;
 	static String fileName;
+	static JPanel panel;
+	static JSpinner s1, s2;
 	
 	public static void main(String[] args) 
 	{
@@ -21,10 +23,11 @@ public class GroupGeneratorRunner extends JPanel
 	
 	public static void displayJFrame()
 	{
-		JPanel panel = new JPanel();
+		frame = new JFrame("Group Generator");
+		panel = new JPanel();
 		panel.setLayout(null);
 		
-		JLabel lbl = new JLabel("Choose a FIle");
+		JLabel lbl = new JLabel("Choose a File");
 		lbl.setBounds(150, 5, 100, 20);
 		panel.add(lbl);
 		
@@ -61,6 +64,13 @@ public class GroupGeneratorRunner extends JPanel
 					  File file = j.getSelectedFile();
 					  fileName = file.toString();
 					  ReadFile.readFile();
+					  for(Student s: directory)
+						  {
+							  System.out.println(s.getFirstName()+" "+s.getLastName());
+						  }
+					  frame.setVisible(false);
+					  displayOptions();
+					  
 				  }
 			}
 		});
@@ -72,7 +82,7 @@ public class GroupGeneratorRunner extends JPanel
 			{
 					  JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 					  
-					  int r = j.showSaveDialog(null);
+					  int r = j.showOpenDialog(null);
 					  
 					  if(r == JFileChooser.APPROVE_OPTION)
 					  {
@@ -86,6 +96,45 @@ public class GroupGeneratorRunner extends JPanel
 			}
 			
 		});
+	}
+
+	public static void displayOptions()
+	{
+		frame = new JFrame("Group Generator");
+		panel = new JPanel();
+		panel.setLayout(null);
+		
+		JLabel lbl = new JLabel("Set Group Parameters");
+		lbl.setBounds(130, 5, 150, 20);
+		panel.add(lbl);
+		
+		JLabel lbl2 = new JLabel("Amount in Groups");
+		lbl2.setBounds(10, 100, 120, 20);
+		panel.add(lbl2);
+		
+		JLabel lbl3 = new JLabel("Amount of Groups");
+		lbl3.setBounds(270, 100, 120, 20);
+		panel.add(lbl3);
+		
+		s1 = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+		s1.setBounds(40, 130, 35, 25);
+		panel.add(s1);
+		
+		s2 = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+		s2.setBounds(310, 130, 35, 25);
+		panel.add(s2);
+		
+		
+		frame.getContentPane().add(panel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(400, 250);
+		frame.setLocation(400, 200);
+		frame.setVisible(true);
+		frame.repaint();
+	}
+	public static void generateGroups()
+	{
+		
 	}
 
 	
