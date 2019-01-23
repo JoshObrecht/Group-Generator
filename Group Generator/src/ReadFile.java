@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 public class ReadFile 
 {
@@ -14,7 +15,8 @@ public class ReadFile
 	
 	while((line = br.readLine()) != null) 
  	{
-     System.out.println(line);
+	String[] tempName = line.split(" ");
+    GroupGeneratorRunner.directory.add(new Student(tempName[0], tempName[1], new ArrayList<Student>()));
  	}
 	
 	br.close();
