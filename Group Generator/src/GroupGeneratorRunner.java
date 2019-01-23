@@ -50,11 +50,7 @@ public class GroupGeneratorRunner extends JPanel
 		btn.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e)
-			{
-			  String com = e.getActionCommand();
-			  
-			  if(com.equals("Load Existing Class"))
-			  {
+			{		 
 				  JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 				  
 				  int r = j.showOpenDialog(null);
@@ -66,8 +62,29 @@ public class GroupGeneratorRunner extends JPanel
 					  fileName = file.toString();
 					  ReadFile.readFile();
 				  }
-			  }
 			}
+		});
+		
+		btn2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+					  JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+					  
+					  int r = j.showSaveDialog(null);
+					  
+					  if(r == JFileChooser.APPROVE_OPTION)
+					  {
+						  lbl2.setText(j.getSelectedFile().getAbsolutePath());
+						  File file = j.getSelectedFile();
+						  fileName = file.toString();
+						  ReadFile.readFile();
+					  }
+				  
+				
+			}
+			
 		});
 	}
 
