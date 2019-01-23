@@ -12,6 +12,7 @@ public class GroupGeneratorRunner extends JPanel
 	static ArrayList<Student> directory = new ArrayList<Student>();
 	static JFrame frame = new JFrame("Group Generator");
 	static JLabel lbl2;
+	static String fileName;
 	
 	public static void main(String[] args) 
 	{
@@ -61,6 +62,9 @@ public class GroupGeneratorRunner extends JPanel
 				  if(r == JFileChooser.APPROVE_OPTION)
 				  {
 					  lbl2.setText(j.getSelectedFile().getAbsolutePath());
+					  File file = j.getSelectedFile();
+					  fileName = file.toString();
+					  ReadFile.readFile();
 				  }
 			  }
 			}
