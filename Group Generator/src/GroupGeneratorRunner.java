@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.util.ArrayList;
 import java.io.*;
+import java.nio.file.Files;
 
 
 @SuppressWarnings("serial")
@@ -109,7 +110,7 @@ public class GroupGeneratorRunner extends JPanel
 		lbl3.setBounds(145, 50, 120, 20);
 		panel.add(lbl3);
 		
-		s1 = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+		s1 = new JSpinner(new SpinnerNumberModel(1, 1, directory.size(), 1));
 		s1.setBounds(180, 80, 35, 25);
 		panel.add(s1);
 		
@@ -142,26 +143,76 @@ public class GroupGeneratorRunner extends JPanel
 		 groups.add(new ArrayList<Student>());
 	 }
 	 
-	 int counter1=0;
-	 for(int i=0; i<directory.size(); i++)
+	 int counter=0;
+	 while(directory.size()>0)
 	 {
-		 for(ArrayList<Student> a: groups)
-		 {
-		 a.add(directory.get(counter1));
-		 counter1++;
-		 }
+		int random = (int)(Math.random()*directory.size());
+		
+		if(counter==groups.size())
+			{
+				counter=0;
+			}
+		groups.get(counter).add(directory.get(random));
+		directory.remove(random);
+		counter++;
 	 }
 	 
-	 int counter=0;
+	 try
+	   {
+		  File dir = null;
+		  JFileChooser fc = new JFileChooser();
+		  fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		  int resp = fc.showOpenDialog(null);
+		  if(resp == JFileChooser.APPROVE_OPTION)
+			  {
+				  dir = fc.getSelectedFile();
+			  }
+		  
+		  File file = new File(dir, "test.txt");
+		  FileWriter fw = new FileWriter(file);
+		  
+		  fw.write("test2");
+		  fw.flush();
+		  
+		  fw.close();
+		   
+		   
+		   
+		   
+		   
+//		String FILE_PATH = "C:\\Users\\joshua.obrecht\\Downloads\\test.txt";
+//		
+//		File file = new File(FILE_PATH);
+//		
+//		file.createNewFile();
+//		
+//		if(file.createNewFile())
+//			{
+//				System.out.println("File Created");
+//			}
+//		else
+//			{
+//				System.out.println("File Already Exists");
+//			}
+//		FileWriter writer = new FileWriter(file);
+//		writer.write("test");
+//		writer.close();
+		
+	   }
+	 catch(Exception e)
+	   {
+		System.out.println("bet");	 
+	   }
+	 
 	 for(int i=0; i<groups.size(); i++)
-	 {
-		 for(Student s: groups.get(counter))
 		 {
-			 System.out.println(s.getFirstName());
+			 for(Student a: groups.get(i))
+				 {
+					 System.out.println(a.getFirstName());
+				 }
+			 System.out.println("");
 		 }
-		 counter++;
-		 System.out.println("");
-	 }
+	 
 	}
 
 	
