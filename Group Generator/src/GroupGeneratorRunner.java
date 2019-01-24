@@ -14,7 +14,8 @@ public class GroupGeneratorRunner extends JPanel
 	static JLabel lbl2;
 	static String fileName;
 	static JPanel panel;
-	static JSpinner s1, s2;
+	static JSpinner s1;
+	static int selectedVal=0;
 	
 	public static void main(String[] args) 
 	{
@@ -64,10 +65,6 @@ public class GroupGeneratorRunner extends JPanel
 					  File file = j.getSelectedFile();
 					  fileName = file.toString();
 					  ReadFile.readFile();
-					  for(Student s: directory)
-						  {
-							  System.out.println(s.getFirstName()+" "+s.getLastName());
-						  }
 					  frame.setVisible(false);
 					  displayOptions();
 					  
@@ -108,22 +105,17 @@ public class GroupGeneratorRunner extends JPanel
 		lbl.setBounds(130, 5, 150, 20);
 		panel.add(lbl);
 		
-		JLabel lbl2 = new JLabel("Amount in Groups");
-		lbl2.setBounds(10, 100, 120, 20);
-		panel.add(lbl2);
-		
 		JLabel lbl3 = new JLabel("Amount of Groups");
-		lbl3.setBounds(270, 100, 120, 20);
+		lbl3.setBounds(145, 50, 120, 20);
 		panel.add(lbl3);
 		
 		s1 = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
-		s1.setBounds(40, 130, 35, 25);
+		s1.setBounds(180, 80, 35, 25);
 		panel.add(s1);
 		
-		s2 = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
-		s2.setBounds(310, 130, 35, 25);
-		panel.add(s2);
-		
+		JButton btn = new JButton("CREATE");
+		btn.setBounds(120 , 125, 150, 50);
+		panel.add(btn);
 		
 		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,10 +123,45 @@ public class GroupGeneratorRunner extends JPanel
 		frame.setLocation(400, 200);
 		frame.setVisible(true);
 		frame.repaint();
+		
+		btn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+			 selectedVal = (int)s1.getValue();
+			 generateGroups();
+			}
+		});
 	}
 	public static void generateGroups()
 	{
-		
+	 ArrayList<ArrayList<Student>> groups = new ArrayList<ArrayList<Student>>();
+	 
+	 for(int i=0; i<selectedVal; i++)
+	 {
+		 groups.add(new ArrayList<Student>());
+	 }
+	 
+	 int counter1=0;
+	 for(int i=0; i<directory.size(); i++)
+	 {
+		 for(ArrayList<Student> a: groups)
+		 {
+		 a.add(directory.get(counter1));
+		 counter1++;
+		 }
+	 }
+	 
+	 int counter=0;
+	 for(int i=0; i<groups.size(); i++)
+	 {
+		 for(Student s: groups.get(counter))
+		 {
+			 System.out.println(s.getFirstName());
+		 }
+		 counter++;
+		 System.out.println("");
+	 }
 	}
 
 	
