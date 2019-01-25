@@ -15,8 +15,7 @@ public class ReadFile
 	
 	while((line = br.readLine()) != null) 
  	{
-	String[] tempName = line.split(" ");
-    GroupGeneratorRunner.directory.add(new Student(tempName[0], tempName[1], new ArrayList<Student>()));
+    GroupGeneratorRunner.directory.add(new Student(line, new ArrayList<Student>()));
  	}
 	
 	br.close();

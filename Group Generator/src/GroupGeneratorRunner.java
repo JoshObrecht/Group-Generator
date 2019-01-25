@@ -173,7 +173,7 @@ public class GroupGeneratorRunner extends JPanel
 						  bw.newLine();
 						  for(Student s: groups.get(i))
 							  {
-								  bw.write(s.getFirstName());
+								  bw.write(s.getName());
 								  bw.newLine();
 							  }
 						  bw.newLine();
@@ -182,28 +182,6 @@ public class GroupGeneratorRunner extends JPanel
 				  bw.close();
 				  
 			  }
-		   
-		   
-		   
-		   
-		   
-//		String FILE_PATH = "C:\\Users\\joshua.obrecht\\Downloads\\test.txt";
-//		
-//		File file = new File(FILE_PATH);
-//		
-//		file.createNewFile();
-//		
-//		if(file.createNewFile())
-//			{
-//				System.out.println("File Created");
-//			}
-//		else
-//			{
-//				System.out.println("File Already Exists");
-//			}
-//		FileWriter writer = new FileWriter(file);
-//		writer.write("test");
-//		writer.close();
 		
 	   }
 	 catch(Exception e)
@@ -215,7 +193,7 @@ public class GroupGeneratorRunner extends JPanel
 		 {
 			 for(Student a: groups.get(i))
 				 {
-					 System.out.println(a.getFirstName());
+					 System.out.println(a.getName());
 				 }
 			 System.out.println("");
 		 }
