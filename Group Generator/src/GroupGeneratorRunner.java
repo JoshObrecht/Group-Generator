@@ -158,6 +158,18 @@ public class GroupGeneratorRunner extends JPanel
 		counter++;
 	 }
 	 
+	 for(int i=0; i<groups.size(); i++)
+		 {
+			 for(Student s: groups.get(i))
+				 {
+					 for(Student st: groups.get(i))
+						 {
+							 s.getStudents().add(st);
+						 }
+					 s.getStudents().remove(s);
+				 }
+		 }
+	 
 	 try
 	   {
 		  JFileChooser chooser = new JFileChooser();
