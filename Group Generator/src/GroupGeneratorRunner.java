@@ -5,6 +5,7 @@ import javax.swing.filechooser.*;
 import java.util.ArrayList;
 import java.io.*;
 import java.nio.file.Files;
+import javax.swing.JTextArea;
 
 
 @SuppressWarnings("serial")
@@ -159,22 +160,28 @@ public class GroupGeneratorRunner extends JPanel
 	 
 	 try
 	   {
-		  File dir = null;
-		  JFileChooser fc = new JFileChooser();
-		  fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		  int resp = fc.showOpenDialog(null);
-		  if(resp == JFileChooser.APPROVE_OPTION)
+		  JFileChooser chooser = new JFileChooser();
+		  int r = chooser.showSaveDialog(null);
+		  
+		  if(r==JFileChooser.APPROVE_OPTION)
 			  {
-				  dir = fc.getSelectedFile();
+				  BufferedWriter bw = new BufferedWriter(new FileWriter(chooser.getSelectedFile()+".txt"));
+
+				  for(int i=0; i<groups.size(); i++)
+					  {
+						  bw.write("GROUP "+(i+1)+":");
+						  bw.newLine();
+						  for(Student s: groups.get(i))
+							  {
+								  bw.write(s.getFirstName());
+								  bw.newLine();
+							  }
+						  bw.newLine();
+					  }
+				  bw.flush();
+				  bw.close();
+				  
 			  }
-		  
-		  File file = new File(dir, "test.txt");
-		  FileWriter fw = new FileWriter(file);
-		  
-		  fw.write("test2");
-		  fw.flush();
-		  
-		  fw.close();
 		   
 		   
 		   
