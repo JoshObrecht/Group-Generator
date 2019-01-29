@@ -17,6 +17,7 @@ public class GroupGeneratorRunner extends JPanel
 	static String fileName;
 	static JPanel panel;
 	static JSpinner s1;
+	static String loadedFileName= "";
 	static int selectedVal=0;
 	
 	public static void main(String[] args) 
@@ -57,20 +58,19 @@ public class GroupGeneratorRunner extends JPanel
 			
 			public void actionPerformed(ActionEvent e)
 			{		 
-				  JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 				  
-				  int r = j.showOpenDialog(null);
 				  
-				  if(r == JFileChooser.APPROVE_OPTION)
-				  {
-					  lbl2.setText(j.getSelectedFile().getAbsolutePath());
-					  File file = j.getSelectedFile();
-					  fileName = file.toString();
-					  ReadFile.readFile();
+				
+					  try
+						{
+							SaveClass.loadFile();
+						} 
+					  catch (InterruptedException e1)
+						{
+							e1.printStackTrace();
+						}
 					  frame.setVisible(false);
 					  displayOptions();
-					  
-				  }
 			}
 		});
 		
@@ -89,6 +89,8 @@ public class GroupGeneratorRunner extends JPanel
 						  File file = j.getSelectedFile();
 						  fileName = file.toString();
 						  ReadFile.readFile();
+						  frame.setVisible(false);
+						  displayOptions();
 					  }
 				  
 				
@@ -145,17 +147,23 @@ public class GroupGeneratorRunner extends JPanel
 	 }
 	 
 	 int counter=0;
+	 
 	 while(directory.size()>0)
 	 {
 		int random = (int)(Math.random()*directory.size());
+		
+		if(!(groups.get(counter).contains(directory.get(random))))
+			{
+				groups.get(counter).add(directory.get(random));
+				directory.remove(random);
+				counter++;
+			}
 		
 		if(counter==groups.size())
 			{
 				counter=0;
 			}
-		groups.get(counter).add(directory.get(random));
-		directory.remove(random);
-		counter++;
+		
 	 }
 	 
 	 for(int i=0; i<groups.size(); i++)
@@ -170,9 +178,17 @@ public class GroupGeneratorRunner extends JPanel
 				 }
 		 }
 	 
+	 for(int i=0; i<groups.size(); i++)
+		 {
+			 for(Student s: groups.get(i))
+				 {
+					 directory.add(s);
+				 }
+		 }
+	 
 	 try
 	   {
-		  JFileChooser chooser = new JFileChooser();
+		  JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		  int r = chooser.showSaveDialog(null);
 		  
 		  if(r==JFileChooser.APPROVE_OPTION)
@@ -194,6 +210,7 @@ public class GroupGeneratorRunner extends JPanel
 				  bw.close();
 				  
 			  }
+		  frame.setVisible(false);
 		
 	   }
 	 catch(Exception e)
@@ -201,15 +218,33 @@ public class GroupGeneratorRunner extends JPanel
 		System.out.println("bet");	 
 	   }
 	 
-	 for(int i=0; i<groups.size(); i++)
-		 {
-			 for(Student a: groups.get(i))
-				 {
-					 System.out.println(a.getName());
-				 }
-			 System.out.println("");
-		 }
 	 
+	}
+	
+	public static void createNewGroups()
+	{
+		frame = new JFrame("Group Generator");
+		panel = new JPanel();
+		panel.setLayout(null);
+		
+		JLabel lbl = new JLabel("Save Class?");
+		lbl.setBounds(130, 5, 150, 20);
+		panel.add(lbl);
+		
+		JButton btn = new JButton("YES");
+		btn.setBounds(120 , 125, 150, 50);
+		panel.add(btn);
+		
+		JButton btn2 = new JButton("NO");
+		btn2.setBounds(250, 125, 150, 50);
+		
+		frame.getContentPane().add(panel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(400, 250);
+		frame.setLocation(400, 200);
+		frame.setVisible(true);
+		frame.repaint();
+		
 	}
 
 	
