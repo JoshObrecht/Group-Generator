@@ -10,9 +10,21 @@ public class SaveClass
 		{
 		try
 			{
+				
+				
+				if(GroupGeneratorRunner.load==true)
+					{
+					ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(GroupGeneratorRunner.userFile));
+					
+					out.writeObject(GroupGeneratorRunner.directory);  
+					
+					out.flush();
+					out.close();
+					}
+				else
+					{
 				JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 				int r = chooser.showSaveDialog(null);
-				
 				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(chooser.getSelectedFile()+".txt"));
 				
 				 try
@@ -29,9 +41,11 @@ public class SaveClass
 					   {
 						System.out.println("bet");	 
 					   }
+				 out.flush();
+				 out.close();
+					}
 				
-				out.flush();
-				out.close();
+				
 			}
 		catch(IOException ex)
 			{
@@ -51,6 +65,7 @@ public class SaveClass
 			try
 				{
 					ObjectInputStream in = new ObjectInputStream(new FileInputStream(chooser.getSelectedFile()));
+					GroupGeneratorRunner.userFile = chooser.getSelectedFile();
 					
 					if(r==JFileChooser.APPROVE_OPTION)
 						{

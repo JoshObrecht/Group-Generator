@@ -19,6 +19,8 @@ public class GroupGeneratorRunner extends JPanel
 	static JSpinner s1;
 	static String loadedFileName= "";
 	static int selectedVal=0;
+	static boolean load=false;
+	static File userFile = new File("file");
 	
 	public static void main(String[] args) 
 	{
@@ -69,6 +71,7 @@ public class GroupGeneratorRunner extends JPanel
 						{
 							e1.printStackTrace();
 						}
+					  load=true;
 					  frame.setVisible(false);
 					  displayOptions();
 			}
@@ -168,15 +171,16 @@ public class GroupGeneratorRunner extends JPanel
 	 
 	 for(int i=0; i<groups.size(); i++)
 		 {
-			 for(Student s: groups.get(i))
+			 for(int j=0; j<groups.get(i).size(); j++)
 				 {
-					 for(Student st: groups.get(i))
+					 for(int x=0; x<groups.get(i).size(); x++)
 						 {
-							 s.getStudents().add(st);
+							 groups.get(i).get(j).getStudents().add(groups.get(i).get(x));
 						 }
-					 s.getStudents().remove(s);
+					
 				 }
 		 }
+	 
 	 
 	 for(int i=0; i<groups.size(); i++)
 		 {
@@ -217,33 +221,79 @@ public class GroupGeneratorRunner extends JPanel
 	   {
 		System.out.println("bet");	 
 	   }
+	 if(load==true)
+		 {
+			 try
+				{
+					SaveClass.saveFile();
+				} 
+			 catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			 frame.setVisible(false);
+			 displayJFrame();
+		 }
+	 else
+		 {
+	 saveCreatedClass();
+		 }
 	 
-	 
+	 groups.clear();
 	}
 	
-	public static void createNewGroups()
+	public static void saveCreatedClass()
 	{
 		frame = new JFrame("Group Generator");
 		panel = new JPanel();
 		panel.setLayout(null);
 		
 		JLabel lbl = new JLabel("Save Class?");
-		lbl.setBounds(130, 5, 150, 20);
+		lbl.setBounds(110, 5, 150, 20);
 		panel.add(lbl);
 		
 		JButton btn = new JButton("YES");
-		btn.setBounds(120 , 125, 150, 50);
+		btn.setBounds(40 , 45, 75, 50);
 		panel.add(btn);
 		
 		JButton btn2 = new JButton("NO");
-		btn2.setBounds(250, 125, 150, 50);
+		btn2.setBounds(170, 45, 75, 50);
+		panel.add(btn2);
 		
 		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(400, 250);
+		frame.setSize(300, 150);
 		frame.setLocation(400, 200);
 		frame.setVisible(true);
 		frame.repaint();
+		
+		btn.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+					{
+						SaveClass.saveFile();
+					} catch (InterruptedException e1)
+					{
+						e1.printStackTrace();
+					}
+				frame.setVisible(false);
+				displayJFrame();
+				
+			}
+			
+		});
+		
+		btn2.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+				frame.setVisible(false);
+				displayJFrame();
+			}
+			
+		});
 		
 	}
 
