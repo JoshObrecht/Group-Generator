@@ -21,9 +21,11 @@ public class GroupGeneratorRunner extends JPanel
 	static int selectedVal=0;
 	static boolean load=false;
 	static File userFile = new File("file");
+	static boolean mullen = false;
 	
 	public static void main(String[] args) 
 	{
+//		createMullenGroups();
 		displayJFrame();
 	}
 	
@@ -143,6 +145,12 @@ public class GroupGeneratorRunner extends JPanel
 	public static void generateGroups()
 	{
 	 ArrayList<ArrayList<Student>> groups = new ArrayList<ArrayList<Student>>();
+	 ArrayList<Student> gc = new ArrayList<Student>();
+	 
+     if(mullen)
+    	 {
+    		 selectedVal=5;
+    	 }
 	 
 	 for(int i=0; i<selectedVal; i++)
 	 {
@@ -150,15 +158,26 @@ public class GroupGeneratorRunner extends JPanel
 	 }
 	 
 	 int counter=0;
+	 int counter3=0;
 	 
 	 while(directory.size()>0)
 	 {
 		int random = (int)(Math.random()*directory.size());
+		int counter2=0;
 		
-		if(!(groups.get(counter).contains(directory.get(random))))
+		for(Student s: groups.get(counter))
+			{
+				if(s.getStudents().contains(directory.get(random)))
+					{
+						counter2++;
+					}
+			}
+		
+		if(counter2==0)
 			{
 				groups.get(counter).add(directory.get(random));
-				directory.remove(random);
+				gc.add(directory.get(random));
+				directory.remove(directory.get(random));
 				counter++;
 			}
 		
@@ -166,6 +185,22 @@ public class GroupGeneratorRunner extends JPanel
 			{
 				counter=0;
 			}
+		
+		if(counter3==10000)
+			{
+				for(Student s: gc)
+					{
+						directory.add(s);
+					}
+				for(ArrayList<Student> g: groups)
+					{
+						g.clear();
+					}
+				gc.clear();
+				counter3=0;
+			}
+		
+		counter3++;
 		
 	 }
 	 
@@ -295,6 +330,76 @@ public class GroupGeneratorRunner extends JPanel
 			
 		});
 		
+	}
+	public static void createMullenGroups()
+	{
+		ArrayList<ArrayList<Student>> groups = new ArrayList<ArrayList<Student>>();
+		
+		directory.add(new Student("Burke Bradley", new ArrayList<Student>()));
+		directory.add(new Student("Hector Rodriguez", new ArrayList<Student>()));
+		directory.add(new Student("Andrew Shine", new ArrayList<Student>()));
+		directory.add(new Student("Coco Yu", new ArrayList<Student>()));
+		directory.add(new Student("Scott Zhou", new ArrayList<Student>()));
+		
+		directory.add(new Student("Caleb Coit", new ArrayList<Student>()));
+		directory.add(new Student("Daniel Dominguez", new ArrayList<Student>()));
+		directory.add(new Student("Bo Kulbacki", new ArrayList<Student>()));
+		directory.add(new Student("Elena Oman", new ArrayList<Student>()));
+		directory.add(new Student("Dunham Perry", new ArrayList<Student>()));
+		
+		directory.add(new Student("Calvin Farrell", new ArrayList<Student>()));
+		directory.add(new Student("Jeffer Ng", new ArrayList<Student>()));
+		directory.add(new Student("Eric Rapp", new ArrayList<Student>()));
+		directory.add(new Student("Kenny Sun", new ArrayList<Student>()));
+		
+		directory.add(new Student("Meagan Compton", new ArrayList<Student>()));
+		directory.add(new Student("Blake Good", new ArrayList<Student>()));
+		directory.add(new Student("Taylor Nielsen", new ArrayList<Student>()));
+		directory.add(new Student("Liam Shaw", new ArrayList<Student>()));
+		
+		directory.add(new Student("Amelia Brown", new ArrayList<Student>()));
+		directory.add(new Student("Angel Chen", new ArrayList<Student>()));
+		directory.add(new Student("Josh Obrecht", new ArrayList<Student>()));
+		directory.add(new Student("Carlos Reyes", new ArrayList<Student>()));
+		
+		for(int i=0; i<5; i++)
+			{
+				groups.add(new ArrayList<Student>());
+			}
+		
+		int counter=0;
+		for(int i=0; i<groups.size(); i++)
+			{
+				if(i<2)
+					{
+						for(int j=0; j<5; j++)
+							{
+								groups.get(i).add(directory.get(counter));
+								counter++;
+							}
+					}
+				else
+					{
+						for(int j=0; j<4; j++)
+							{
+								groups.get(i).add(directory.get(counter));
+								counter++;
+							}
+					}
+				
+			}
+		 for(int i=0; i<groups.size(); i++)
+			 {
+				 for(int j=0; j<groups.get(i).size(); j++)
+					 {
+						 for(int x=0; x<groups.get(i).size(); x++)
+							 {
+								 groups.get(i).get(j).getStudents().add(groups.get(i).get(x));
+							 }
+						
+					 }
+			 }
+		 displayOptions();
 	}
 
 	

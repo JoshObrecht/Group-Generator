@@ -74,11 +74,6 @@ public class SaveClass
 						}
 					
 					
-					for(Student s: GroupGeneratorRunner.directory)
-						{
-							System.out.println(s.getName());
-						}
-					
 					in.close();
 				} 
 			
